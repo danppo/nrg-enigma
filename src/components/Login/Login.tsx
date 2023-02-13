@@ -1,18 +1,13 @@
-import { ChangeEvent, useState } from "react";
-import {
-  Box,
-  Text,
-  VStack,
-  Code,
-  Grid,
-  Input,
-  Button,
-  Stack,
-} from "@chakra-ui/react";
-import { BeatLoader } from "react-spinners";
+import { ChangeEvent, useState } from 'react';
+import { Box, Input, Button, Stack } from '@chakra-ui/react';
+import EmailInput from '../EmailInput';
+import { BeatLoader } from 'react-spinners';
 
 const Login = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
+  const [emailValue, setEmailValue] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setIsloading] = useState(false);
   const handleUserNameChange = (event: ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);
@@ -22,32 +17,28 @@ const Login = () => {
   };
 
   return (
-    <Box textAlign="center" fontSize="xl">
+    <Box textAlign='center' fontSize='xl'>
       <Stack mx={8} spacing={3}>
-        <Input
-          value={value}
-          onChange={handleUserNameChange}
-          placeholder="Login email"
+        <EmailInput
+          disabled={false}
+          isValid={isEmailValid}
+          setIsValid={setIsEmailValid}
+          value={emailValue}
+          setValue={setEmailValue}
+          placeholder='Login email'
         />
 
-        <Input type={"password"} placeholder="Enter password" />
+        <Input type={'password'} placeholder='Enter password' />
         <Button
-          colorScheme="blue"
+          colorScheme='blue'
           onClick={handleLogin}
           isLoading={isLoading}
-          spinner={<BeatLoader size={8} color="white" />}
+          spinner={<BeatLoader size={8} color='white' />}
         >
-          {" "}
-          Login{" "}
+          {' '}
+          Login{' '}
         </Button>
       </Stack>
-      <Grid minH="30vh" p={3}>
-        <VStack spacing={8}>
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-        </VStack>
-      </Grid>
     </Box>
   );
 };
