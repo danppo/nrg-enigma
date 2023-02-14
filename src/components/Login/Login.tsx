@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { Box, Input, Button, Stack } from '@chakra-ui/react';
 import EmailInput from '../EmailInput';
 import { BeatLoader } from 'react-spinners';
+import axios from 'axios';
 
 const Login = () => {
   const [value, setValue] = useState('');
@@ -13,7 +14,22 @@ const Login = () => {
     setValue(event.target.value);
 
   const handleLogin = () => {
+    // TODO: add validation
+    const loginPayload = {
+      email: 'eve.holt@reqres.in',
+      password: 'cityslicka',
+    };
     setIsloading(true);
+
+    axios.post('/api/login', loginPayload).then((res) => {
+      const token = res.data.token;
+
+      localStorage.setItem('token', token);
+
+      // setAuthToken(token);
+
+      // TODO: redirect user
+    });
   };
 
   return (
@@ -21,8 +37,8 @@ const Login = () => {
       <Stack mx={8} spacing={3}>
         <EmailInput
           disabled={false}
-          isValid={isEmailValid}
-          setIsValid={setIsEmailValid}
+          isInvalid={isEmailValid}
+          setIsInvalid={setIsEmailValid}
           value={emailValue}
           setValue={setEmailValue}
           placeholder='Login email'

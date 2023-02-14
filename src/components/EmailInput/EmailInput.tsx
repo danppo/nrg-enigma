@@ -1,19 +1,28 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Input } from '@chakra-ui/react';
 
 type Props = {
-  isValid: boolean;
-  setIsValid: (isValid: boolean) => void;
+  isInvalid: boolean;
+  setIsInvalid: (isValid: boolean) => void;
   value: string;
   setValue: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
 };
 
-const EmailInput = ({ disabled, setIsValid, value, setValue, placeholder, isValid }: Props) => {
-  const validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const EmailInput = ({ disabled, setIsInvalid, value, setValue, placeholder, isInvalid }: Props) => {
+  const [isTouched, setIsTouched] = useState(false);
+  const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const handleUserNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsValid(e.target.value.match(validEmail) ? true : false);
+    setValue(e.target.value);
+    if (isTouched) {
+      console.log(isInvalid);
+      // console.log(e.target.value.match(validEmail) ? true : false);
+
+      setIsInvalid(e.target.value.match(validEmail) ? false : true);
+    } else {
+      setIsTouched(true);
+    }
   };
 
   return (
@@ -22,7 +31,8 @@ const EmailInput = ({ disabled, setIsValid, value, setValue, placeholder, isVali
       value={value}
       onChange={handleUserNameChange}
       placeholder={placeholder}
-      isInvalid={isValid}
+      isInvalid={isTouched ? isInvalid : false}
+      onBlur={() => console.log('onBlur')}
     />
   );
 };
