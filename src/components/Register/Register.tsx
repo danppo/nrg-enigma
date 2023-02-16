@@ -1,16 +1,8 @@
 import { ChangeEvent, useState } from 'react';
-import {
-  Box,
-  Input,
-  Button,
-  Stack,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react';
+import { Box, Input, Button, Stack } from '@chakra-ui/react';
 import EmailInput from '../EmailInput';
 import { BeatLoader } from 'react-spinners';
+import Alerts from 'components/Alerts';
 
 const Register = () => {
   const [emailValue, setEmailValue] = useState('');
@@ -32,18 +24,14 @@ const Register = () => {
         <Button
           size='md'
           colorScheme='blue'
-          // onClick={handleRegister}
+          onClick={() => console.log('clicked')}
           // isLoading={isLoading}
           spinner={<BeatLoader size={8} color='white' />}
         >
           {' '}
           Register{' '}
         </Button>
-        <Alert status='error'>
-          <AlertIcon />
-          <AlertTitle>Your browser is outdated!</AlertTitle>
-          <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
-        </Alert>
+        <Alerts />
       </Stack>
     </Box>
   );

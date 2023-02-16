@@ -10,29 +10,39 @@ type Props = {
   placeholder?: string;
 };
 
-const EmailInput = ({ disabled, setIsInvalid, value, setValue, placeholder, isInvalid }: Props) => {
+const EmailInput = ({ disabled, placeholder, setValue, setIsInvalid }: Props) => {
+  const [inputValue, setInputValue] = useState('');
   const [isTouched, setIsTouched] = useState(false);
-  const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const [isInvalidInput, setIsInvalidInput] = useState(false);
+  const validEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const handleUserNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    if (isTouched) {
-      console.log(isInvalid);
-      // console.log(e.target.value.match(validEmail) ? true : false);
-
-      setIsInvalid(e.target.value.match(validEmail) ? false : true);
-    } else {
+    if (!isTouched) {
       setIsTouched(true);
+    }
+    setInputValue(e.target.value);
+    console.log(e.target.value.length);
+  };
+
+  const handleOnBlur = () => {
+    if (isTouched && inputValue.length > 0) {
+      const isInvalid = inputValue.match(validEmail) ? false : true;
+      setIsInvalidInput(isInvalid);
+      setValue(inputValue);
+      setIsInvalid(isInvalid);
     }
   };
 
   return (
     <Input
+      // borderColor='green.200'
       disabled={disabled}
-      value={value}
+      value={inputValue}
       onChange={handleUserNameChange}
       placeholder={placeholder}
-      isInvalid={isTouched ? isInvalid : false}
-      onBlur={() => console.log('onBlur')}
+      isInvalid={isTouched ? isInvalidInput : false}
+      onBlur={handleOnBlur}
+
+      // maxLength={10}
     />
   );
 };
